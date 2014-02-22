@@ -4,10 +4,10 @@ var mongoskin = require('mongoskin');
 var mongo = function (table, config) {
   this.table = table;
   this.config = config;
-  this.store = mongoskin.db(config.db.config.host, {
-		username: config.db.config.user,
-		password: config.db.config.pass,
-		database: config.db.config.database,
+  this.store = mongoskin.db(config.host, {
+		username: config.user,
+		password: config.pass,
+		database: config.database,
 		safe: false
 	});
 };
@@ -19,7 +19,11 @@ mongo.prototype.count = function (query, cb) {
 
 // Returns entire contents of data store
 mongo.prototype.all = function (cb) {
-
+  var self = this;
+  self.store.collection(self.table).find().toArray(function (err, data) {
+		cb(err, data);
+		self.store.close();
+	});
 };
 
 // Finds specific entry
