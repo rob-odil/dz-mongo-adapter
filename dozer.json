@@ -1,0 +1,15 @@
+{
+  "name": "example-extension",
+  "version": "0.1.0",
+  "assets": {
+    "adapters": [ "mongo.js" ],
+    "api": [ "users.js" ],
+    "components": [],
+    "controllers": [ "users.js" ],
+    "models": [ "users.js" ],
+    "public": []
+  },
+  "run": [
+    "npm install mongoskin -save"
+  ]
+}
