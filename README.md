@@ -10,6 +10,13 @@ interaction with the database.
 
 ## Setup
 
+You can install this adapter via the [dozerjs cli-tool](https://www.npmjs.org/package/dozerjs) by
+running:
+
+```
+dozerjs install https://github.com/DozerJS/dz-mongo-adapter.git
+```
+
 After installing this adapter extension edit your `/config.js` file with the
 following structure:
 
@@ -30,3 +37,8 @@ following structure:
 
   }
 ```
+
+## Demo/Examples
+
+While the `dozer.json` specifies only the installation of the adapter, the
+scaffolding includes an example `api`, `model` and `controller` file.
