@@ -1,4 +1,5 @@
 var mongoskin = require('mongoskin');
+var ObjectID = require("mongoskin").ObjectID
 
 // DozerJS NeDB component
 var mongo = function (table, config) {
@@ -10,6 +11,14 @@ var mongo = function (table, config) {
 		database: config.database,
 		safe: false
 	});
+};
+
+// Correctly formats ID values
+mongo.prototype.formatQuery = function (query) {
+  if (query.hasOwnProperty('_id')) {
+    query._id = ObjectID.createFromHexString(query._id);
+  }
+  return query;
 };
 
 // Returns count of fields based on query
@@ -28,7 +37,13 @@ mongo.prototype.all = function (cb) {
 
 // Finds specific entry
 mongo.prototype.find = function (query, cb) {
-
+  var self = this;
+  query = self.formatQuery(query);
+  console.log(query);
+  self.store.collection(self.table).find(query).toArray(function (err, data) {
+    cb(err, data);
+    self.store.close();
+  });
 };
 
 // Inserts new record, generates _id

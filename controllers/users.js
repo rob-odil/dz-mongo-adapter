@@ -1,19 +1,8 @@
 // Simple example of a "users" controller
 module.exports = {
 
-  // Any initialization/startup stuff...
-  init: function () {
-    // On connect, just send a test payload
-    this.sockets.users.on('connection', function(socket) {
-      socket.emit('test', { data: 'This is a test' });
-    });
-  },
-
   // Define data tables/stores (and models) to access
   data: [ 'users' ],
-
-  // Define any socket namespaces to use (no slash required)
-  sockets: [ 'users' ],
 
   // Called by api/users "GET"
   getUser: function (req, res) {

@@ -10,6 +10,6 @@
     "public": []
   },
   "run": [
-    "npm install mongoskin -save"
+    "npm install mongoskin@0.6.1 -save"
   ]
 }
