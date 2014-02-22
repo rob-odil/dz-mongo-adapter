@@ -1,57 +1,57 @@
-// Simple example of a "users" controller
+// Simple example of a "example" controller
 module.exports = {
 
   // Define data tables/stores (and models) to access
-  data: [ 'users' ],
+  data: [ 'example' ],
 
-  // Called by api/users "GET"
-  getUser: function (req, res) {
+  // Called by api/example "GET"
+  getExample: function (req, res) {
     var self = this;
     if (req.params[0]) {
       // Get by id
-      self.data.users.find({ '_id': req.params[0] }, function (err, data) {
+      self.data.example.find({ '_id': req.params[0] }, function (err, data) {
         self.sendResponse(res, err, data);
       });
     } else {
       // Get list
-      self.data.users.all(function (err, data) {
+      self.data.example.all(function (err, data) {
         self.sendResponse(res, err, data);
       });
     }
   },
 
-  // Called by api/users "POST"
-  createUser: function (req, res) {
+  // Called by api/example "POST"
+  createExample: function (req, res) {
     var self = this;
-    self.data.users.validate(req.body, function (err, failures) {
+    self.data.example.validate(req.body, function (err, failures) {
       if (err) {
         self.sendValidationErr(res, failures);
       } else {
-        self.data.users.insert(req.body, function (err, data) {
+        self.data.example.insert(req.body, function (err, data) {
           self.sendResponse(res, err, data);
         });
       }
     });
   },
 
-  // Called by api/users "PUT"
-  updateUser: function (req, res) {
+  // Called by api/example "PUT"
+  updateExample: function (req, res) {
     var self = this;
-    self.data.users.validate(req.body, function (err, failures) {
+    self.data.example.validate(req.body, function (err, failures) {
       if (err) {
         self.sendValidationErr(res, failures);
       } else {
-        self.data.users.update({ '_id': req.params[0] }, req.body, function (err, data) {
+        self.data.example.update({ '_id': req.params[0] }, req.body, function (err, data) {
           self.sendResponse(res, err, data);
         });
       }
     });
   },
 
-  // Called by api/users "DELETE"
-  deleteUser: function (req, res) {
+  // Called by api/example "DELETE"
+  deleteExample: function (req, res) {
     var self = this;
-    self.data.users.remove({ '_id': req.params[0] }, function (err, data) {
+    self.data.example.remove({ '_id': req.params[0] }, function (err, data) {
       self.sendResponse(res, err, data);
     });
   },

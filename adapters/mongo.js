@@ -14,7 +14,7 @@ var mongo = function (table, config) {
 };
 
 // Correctly formats ID values
-mongo.prototype.formatQuery = function (query) {
+mongo.prototype.formatIds = function (query) {
   if (query.hasOwnProperty('_id')) {
     query._id = ObjectID.createFromHexString(query._id);
   }
@@ -23,42 +23,56 @@ mongo.prototype.formatQuery = function (query) {
 
 // Returns count of fields based on query
 mongo.prototype.count = function (query, cb) {
-
+  var self = this;
+  query = self.formatIds(query);
+  self.store.collection(self.table).count(query, function (err, data) {
+    cb(err, data);
+  });
 };
 
 // Returns entire contents of data store
 mongo.prototype.all = function (cb) {
   var self = this;
   self.store.collection(self.table).find().toArray(function (err, data) {
-		cb(err, data);
-		self.store.close();
-	});
+    cb(err, data);
+  });
 };
 
 // Finds specific entry
 mongo.prototype.find = function (query, cb) {
   var self = this;
-  query = self.formatQuery(query);
-  console.log(query);
+  query = self.formatIds(query);
   self.store.collection(self.table).find(query).toArray(function (err, data) {
     cb(err, data);
-    self.store.close();
   });
 };
 
 // Inserts new record, generates _id
 mongo.prototype.insert = function (data, cb) {
-
+  var self = this;
+  data = self.formatIds(data);
+  self.store.collection(self.table).insert(data, function (err, data) {
+    cb(err, data);
+  });
 };
 
 // Updates existing record
 mongo.prototype.update = function (query, data, cb) {
-
+  var self = this;
+  query = self.formatIds(query);
+  data = self.formatIds(data);
+  self.store.collection(self.table).update(query, data, function (err, data) {
+    cb(err, data);
+  });
 };
 
 // Removes existing record
 mongo.prototype.remove = function (query, cb) {
-
+  var self = this;
+  query = self.formatIds(query);
+  self.store.collection(self.table).remove(query, function (err, data) {
+    cb(err, data);
+  });
 };
 
 module.exports = mongo;
