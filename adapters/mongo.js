@@ -61,7 +61,7 @@ mongo.prototype.update = function (query, data, cb) {
   var self = this;
   query = self.formatIds(query);
   data = self.formatIds(data);
-  self.store.collection(self.table).update(query, data, function (err, data) {
+  self.store.collection(self.table).update(query, { $set: data }, function (err, data) {
     cb(err, data);
   });
 };
