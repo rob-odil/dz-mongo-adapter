@@ -24,7 +24,12 @@ mongo.prototype.formatIds = function (query) {
 // Returns count of fields based on query
 mongo.prototype.count = function (query, cb) {
   var self = this;
-  query = self.formatIds(query);
+  try {
+    query = self.formatIds(query);
+  } catch (err) {
+    cb(null, 0);
+    return;
+  }
   self.store.collection(self.table).count(query, function (err, data) {
     cb(err, data);
   });
@@ -41,7 +46,12 @@ mongo.prototype.all = function (cb) {
 // Finds specific entry
 mongo.prototype.find = function (query, cb) {
   var self = this;
-  query = self.formatIds(query);
+  try {
+    query = self.formatIds(query);
+  } catch (e) {
+    cb(false, []);
+    return;
+  }
   self.store.collection(self.table).find(query).toArray(function (err, data) {
     cb(err, data);
   });
@@ -50,7 +60,12 @@ mongo.prototype.find = function (query, cb) {
 // Inserts new record, generates _id
 mongo.prototype.insert = function (data, cb) {
   var self = this;
-  data = self.formatIds(data);
+  try {
+    data = self.formatIds(data);
+  } catch (e) {
+    cb("Invalid _id provided");
+    return;
+  }
   self.store.collection(self.table).insert(data, function (err, data) {
     cb(err, data);
   });
@@ -59,8 +74,13 @@ mongo.prototype.insert = function (data, cb) {
 // Updates existing record
 mongo.prototype.update = function (query, data, cb) {
   var self = this;
-  query = self.formatIds(query);
-  data = self.formatIds(data);
+  try {
+    query = self.formatIds(query);
+    data = self.formatIds(data);
+  } catch (e) {
+    cb("Invalid _id provided");
+    return;
+  }
   self.store.collection(self.table).update(query, { $set: data }, function (err, data) {
     cb(err, data);
   });
@@ -69,7 +89,12 @@ mongo.prototype.update = function (query, data, cb) {
 // Removes existing record
 mongo.prototype.remove = function (query, cb) {
   var self = this;
-  query = self.formatIds(query);
+  try {
+    query = self.formatIds(query);
+  } catch (e) {
+    cb("Invalid _id provided");
+    return;
+  }
   self.store.collection(self.table).remove(query, function (err, data) {
     cb(err, data);
   });
